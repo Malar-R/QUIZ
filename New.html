@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BCA Quiz - Malar R</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #a8edea, #fed6e3); /* soft natural gradient */
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    .quiz-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 650px;
+      margin: auto;
+      box-shadow: 0px 8px 15px rgba(0,0,0,0.2);
+    }
+    h2 { color: #2e8b57; } /* green header */
+    button {
+      padding: 10px 25px;
+      margin-top: 15px;
+      border: none;
+      background: #2e8b57;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover { background: #246b45; }
+    .result {
+      font-size: 20px;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #2e8b57;
+    }
+    .answer { margin-top: 10px; font-style: italic; color: #d2691e; } /* show correct answer in brownish */
+    input { margin: 5px; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h2>BCA Quiz - Malar R</h2>
+    <div id="quiz"></div>
+    <button onclick="nextQuestion()">Next</button>
+    <div class="answer" id="answer"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      { question: "Which language is primarily used for web development?", options: ["Python", "HTML", "C++", "Java"], answer: "HTML" },
+      { question: "Which database is commonly used with PHP?", options: ["MySQL", "Oracle", "MongoDB", "SQLite"], answer: "MySQL" },
+      { question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Computer Style Syntax", "Code Style Sheet", "Creative Style Script"], answer: "Cascading Style Sheets" },
+      { question: "Which language is used for server-side scripting?", options: ["HTML", "CSS", "JavaScript", "PHP"], answer: "PHP" },
+      { question: "Which command is used to display output in C?", options: ["echo()", "print()", "printf()", "display()"], answer: "printf()" },
+      { question: "Which protocol is used for secure communication over the Internet?", options: ["HTTP", "FTP", "SMTP", "HTTPS"], answer: "HTTPS" },
+      { question: "Which data structure uses LIFO principle?", options: ["Queue", "Stack", "Linked List", "Array"], answer: "Stack" },
+      { question: "Which of these is a NoSQL database?", options: ["MySQL", "PostgreSQL", "MongoDB", "Oracle"], answer: "MongoDB" },
+      { question: "Which tag is used for the largest heading in HTML?", options: ["<h1>", "<h2>", "<h3>", "<h6>"], answer: "<h1>" },
+      { question: "Which operator is used for logical AND in JavaScript?", options: ["&", "&&", "||", "|"], answer: "&&" }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const quizDiv = document.getElementById("quiz");
+      const ansDiv = document.getElementById("answer");
+      ansDiv.innerHTML = ""; // clear previous answer
+      const q = quizData[currentQuestion];
+      let html = `<h3>${q.question}</h3>`;
+      q.options.forEach(option => {
+        html += `<input type="radio" name="option" value="${option}"> ${option}<br>`;
+      });
+      quizDiv.innerHTML = html;
+    }
+
+    function nextQuestion() {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if(!selected) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      const ansDiv = document.getElementById("answer");
+      if(selected.value === quizData[currentQuestion].answer) {
+        score++;
+        ansDiv.innerHTML = "Correct! ✅";
+      } else {
+        ansDiv.innerHTML = `Wrong! ❌ Correct answer: ${quizData[currentQuestion].answer}`;
+      }
+
+      currentQuestion++;
+
+      if(currentQuestion < quizData.length) {
+        setTimeout(loadQuestion, 1500); // wait 1.5 seconds before next question
+      } else {
+        document.getElementById("quiz").innerHTML = "";
+        document.getElementById("answer").innerHTML = "";
+        document.getElementById("result").innerText = `Your final score: ${score} / ${quizData.length}`;
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
